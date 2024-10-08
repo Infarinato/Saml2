@@ -37,6 +37,7 @@ namespace Sustainsys.Saml2.Owin
                 applicationRootPath = "/";
             }
 
+            var user = context.Request.User as ClaimsPrincipal ?? ClaimsPrincipal.Current;
             return new HttpRequestData(
                 context.Request.Method,
                 context.Request.Uri,
@@ -44,7 +45,7 @@ namespace Sustainsys.Saml2.Owin
                 formData?.Select(f => new KeyValuePair<string, IEnumerable<string>>(f.Key, f.Value)),
                 cookieName => cookieManager.GetRequestCookie(context, cookieName),
                 cookieDecryptor,
-                context.Request.User as ClaimsPrincipal);
+                user);
         }
     }
 }
